@@ -1,17 +1,15 @@
 {{> layout/header}}
 
 <body>
-
+{{#trainer}}
 <div class="container">
-    <h1 class="pt-md-5 pb-md-5">Pokedex</h1>
-
+    <h1 class="pt-md-5 pb-md-5">{{name}}</h1>
     <div class="card-deck">
-        {{#pokemonTypes}}
+        {{#team}}
             {{> layout/pokecard}}
-        {{/pokemonTypes}}
+        {{/team}}
     </div>
-
 </div>
-
+{{/trainer}}
 </body>
 </html>
