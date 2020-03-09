@@ -1,33 +1,24 @@
 package com.miage.altea.game_ui.controller;
 
 import com.miage.altea.game_ui.bo.TrainerPokemonTypeWithLevel;
-import com.miage.altea.game_ui.trainers.bo.Trainer;
 import com.miage.altea.game_ui.trainers.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
 @Controller
-public class TrainerController {
+public class ProfileController {
 
 
     private TrainerService trainerService;
 
-    @GetMapping("/trainers")
-    public ModelAndView trainers(Principal principal){
-        ModelAndView modelAndView = new ModelAndView("trainers");
-        modelAndView.addObject("trainers",this.trainerService.getAllTrainers(principal));
-        return  modelAndView;
-    }
-
-    @GetMapping("/trainers/{name}")
-    public ModelAndView trainer(@PathVariable String name){
+    @GetMapping("/profile")
+    public ModelAndView profile(Principal principal){
         ModelAndView modelAndView = new ModelAndView("trainer");
-        TrainerPokemonTypeWithLevel trainer = this.trainerService.getTrainer(name);
+        TrainerPokemonTypeWithLevel trainer = this.trainerService.getTrainer(principal.getName());
         modelAndView.addObject("trainer",trainer);
         return  modelAndView;
     }

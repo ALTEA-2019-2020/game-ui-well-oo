@@ -24,4 +24,18 @@
                 </li>
             </ul>
         </div>
+        {{#user}}
+        <span class="navbar-text mr-md-3">Welcome {{username}}</span>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    My Profile
+                </a>
+            </li>
+        </ul>
+        <form class="form-inline" action="/logout" method="post">
+            <input type="submit" class="btn btn-outline-warning my-2 my-sm-0" value="Sign Out"/>
+            <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}"/>
+        </form>
+        {{/user}}
     </nav>
