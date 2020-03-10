@@ -14,6 +14,10 @@ import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -42,15 +46,18 @@ public class PokemonTypeServiceImplTest {
         pikachu.setId(25);
         pikachu.setName("Pikachu");
 
-        when(restTemplate.exchange(any(), any(), any(), eq(PokemonType.class))).thenReturn(new ResponseEntity(pikachu, HttpStatus.ACCEPTED));
+        when(restTemplate.exchange(any(String.class), any(), any(), eq(PokemonType.class))).thenReturn(new ResponseEntity(pikachu, HttpStatus.ACCEPTED));
     }
 
     @Test
     void getPokemonType_shouldUseCache() {
         pokemonTypeService.getPokemonType(25);
+        Map<String, String> urlParams = new HashMap<>();
+        urlParams.put("id", "25");
+        var builder = UriComponentsBuilder.fromUriString(expectedUrl).buildAndExpand(urlParams).toUriString();
 
         // rest template should have been called once
-        verify(restTemplate).exchange(expectedUrl, any(), any(), PokemonType.class, 25);
+        verify(restTemplate).exchange(eq(builder), any(), any(), eq(PokemonType.class));
 
         pokemonTypeService.getPokemonType(25);
 

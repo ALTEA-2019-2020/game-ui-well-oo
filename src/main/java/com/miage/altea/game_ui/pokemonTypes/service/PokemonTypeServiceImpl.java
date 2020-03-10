@@ -42,9 +42,7 @@ public class PokemonTypeServiceImpl implements PokemonTypeService {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, String.valueOf(LocaleContextHolder.getLocale()));
         HttpEntity entity = new HttpEntity(headers);
-        var t = this.restTemplate.exchange(this.url + "/pokemon-types/" + id, HttpMethod.GET, entity, PokemonType.class);
-        var test = t.getBody();
-        return this.retry.executeSupplier(() -> test);
+        return this.retry.executeSupplier(() -> this.restTemplate.exchange(this.url + "/pokemon-types/" + id, HttpMethod.GET, entity, PokemonType.class).getBody());
     }
 
     @Qualifier("restTemplate")
